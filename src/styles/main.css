@@ -1,0 +1,272 @@
+/* GENERAL STYLE */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f6fdf6;
+}
+
+/* PAGE CONTAINER */
+.page-container {
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 15px;
+  }
+}
+
+
+/* INPUT */
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  .input {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* BUTTON */
+.button {
+  background: #1b8c34;
+  padding: 12px;
+  border: none;
+  color: white;
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.button:hover {
+  background: #166b29;
+}
+
+@media (max-width: 480px) {
+  .button {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+/* DEVICE CARD */
+.device-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border-left: 6px solid #1b8c34;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 480px) {
+  .device-card {
+    padding: 15px;
+  }
+}
+
+.percentage {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1b8c34;
+}
+
+@media (max-width: 480px) {
+  .percentage {
+    font-size: 20px;
+  }
+}
+
+/* LINKS (Dashboard links) */
+.dashboard-links {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.dashboard-links a {
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .dashboard-links {
+    flex-direction: column;
+  }
+}
+
+/* LEGAL LINKS (Privacy, Terms, KVKK) */
+.legal-links {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.legal-links a {
+  color: #0f8b47;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.legal-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .legal-links {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+
+/* NAVBAR BASE */
+.navbar {
+  background: #1b8c34;
+  padding: 15px 25px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+
+  position: sticky;   /* EKRANDA HER ZAMAN ÜSTTE KALIR */
+  top: 0;             /* En üstte sabitlenir */
+  z-index: 999;       /* Hiçbir şey navbar’ın üstüne çıkamaz */
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* NAV LINKS (DESKTOP) */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.welcome {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.logout-btn {
+  background: white;
+  color: #1b8c34;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background: #e7ffe7;
+}
+
+/* HAMBURGER ICON */
+.hamburger {
+  width: 28px;
+  height: 22px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.bar {
+  width: 100%;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+}
+
+.bar.open:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.bar.open:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: #1b8c34;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 0;
+    display: none;
+    gap: 20px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .welcome {
+    margin-right: 0;
+  }
+
+  .logout-btn {
+    margin-top: 10px;
+    width: 120px;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 18px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-links {
+    padding: 15px 0;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+  }
+}
