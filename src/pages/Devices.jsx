@@ -1,49 +1,94 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { db, auth } from "../firebase";
-import { collection, onSnapshot, doc, getDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc
+} from "firebase/firestore";
 import DeviceCard from "../components/DeviceCard";
 
 export default function Devices() {
   const [devices, setDevices] = useState([]);
+  const binUnsubs = useRef({}); // 🔑 her device için listener tut
 
   useEffect(() => {
-    const userDevicesRef = collection(db, "users", auth.currentUser.uid, "devices");
+    if (!auth.currentUser) return;
 
-    const unsub = onSnapshot(userDevicesRef, async (snapshot) => {
-      const list = [];
+    const userDevicesRef = collection(
+      db,
+      "users",
+      auth.currentUser.uid,
+      "devices"
+    );
 
-      for (const snap of snapshot.docs) {
+    const unsubDevices = onSnapshot(userDevicesRef, (snapshot) => {
+      const currentIds = snapshot.docs.map((d) => d.id);
+
+      // 🔥 SİLİNENLERİ STATE’TEN KALDIR
+      setDevices((prev) =>
+        prev.filter((d) => currentIds.includes(d.id))
+      );
+
+      snapshot.docs.forEach((snap) => {
         const deviceId = snap.id;
         const customName = snap.data().customName || "";
 
-        // Read ultrasonic distance
+        // Eğer zaten varsa tekrar listener açma
+        if (binUnsubs.current[deviceId]) return;
+
+        // İlk kez ekleniyorsa state’e koy
+        setDevices((prev) => [
+          ...prev,
+          { id: deviceId, customName, percentage: 0 },
+        ]);
+
         const binRef = doc(db, "bin", deviceId);
-        const binSnap = await getDoc(binRef);
 
-        let percentage = 0;
-        if (binSnap.exists()) {
-          const distance = binSnap.data().distanceCm;
-          const capacity = 50;
-          const filled = capacity - distance;
+        binUnsubs.current[deviceId] = onSnapshot(
+          binRef,
+          (binSnap) => {
+            let percentage = 0;
 
-          percentage = Math.round((filled / capacity) * 100);
-          if (percentage < 0) percentage = 0;
-          if (percentage > 100) percentage = 100;
+            if (binSnap.exists()) {
+              const distance = binSnap.data().distanceCm;
+              const capacity = 50;
+              const filled = capacity - distance;
+
+              percentage = Math.round((filled / capacity) * 100);
+              percentage = Math.min(100, Math.max(0, percentage));
+            }
+
+            setDevices((prev) =>
+              prev.map((d) =>
+                d.id === deviceId
+                  ? { ...d, percentage }
+                  : d
+              )
+            );
+          }
+        );
+      });
+
+      // 🔥 SİLİNEN DEVICE’LARIN LISTENER’INI KAPAT
+      Object.keys(binUnsubs.current).forEach((id) => {
+        if (!currentIds.includes(id)) {
+          binUnsubs.current[id]();
+          delete binUnsubs.current[id];
         }
-
-        list.push({ id: deviceId, customName, percentage });
-      }
-
-      setDevices(list);
+      });
     });
 
-    return unsub;
+    return () => {
+      unsubDevices();
+      Object.values(binUnsubs.current).forEach((u) => u());
+    };
   }, []);
 
   const deleteDevice = async (id) => {
-    const ref = doc(db, "users", auth.currentUser.uid, "devices", id);
-    await deleteDoc(ref);
-    alert("Bin removed.");
+    await deleteDoc(
+      doc(db, "users", auth.currentUser.uid, "devices", id)
+    );
   };
 
   return (
