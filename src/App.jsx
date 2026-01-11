@@ -18,7 +18,7 @@ import NotFound from "./pages/NotFound";
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // 🔑 yeni
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -28,14 +28,13 @@ export default function App() {
       } else {
         setUser(null);
       }
-      setLoading(false); // 🔑 auth yüklendiğinde loading bitir
+      setLoading(false);
     });
 
     return () => unsub();
   }, []);
 
   if (loading) {
-    // 🔹 auth yüklenene kadar spinner veya loading gösterebilirsin
     return (
       <div
         style={{
@@ -71,7 +70,7 @@ export default function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/kvkk" element={<KVKK />} />
-            <Route path="*" element={<NotFound />} />          
+            <Route path="*" element={<NotFound />} />
           </>
         )}
       </Routes>
