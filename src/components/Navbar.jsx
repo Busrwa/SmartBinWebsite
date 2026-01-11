@@ -8,11 +8,25 @@ export default function Navbar({ user }) {
 
   return (
     <nav className="navbar">
+      {/* LEFT – LOGO + USER */}
       <div className="nav-left">
-        <h3 className="logo">SmartBin</h3>
+        <div className="brand">
+          <img
+            src="/logo.png"
+            alt="Smart Bin"
+            className="navbar-logo"
+          />
+
+          <div className="brand-text">
+            <span className="brand-title">Smart Bin</span>
+            <span className="brand-user">
+              Welcome, {user?.displayName || "User"}
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* Hamburger Icon */}
+      {/* HAMBURGER */}
       <div
         className="hamburger"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -22,10 +36,8 @@ export default function Navbar({ user }) {
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
       </div>
 
-      {/* Links + Logout */}
+      {/* LINKS */}
       <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <span className="welcome">Welcome, {user.displayName || user.email}</span>
-
         <Link to="/">Dashboard</Link>
         <Link to="/devices">My Bins</Link>
         <Link to="/add-device">Add Bin</Link>

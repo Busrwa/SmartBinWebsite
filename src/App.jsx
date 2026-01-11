@@ -14,13 +14,43 @@ import Profile from "./pages/Profile";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import KVKK from "./pages/KVKK";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // 🔑 yeni
 
-  useEffect(() =>
-    onAuthStateChanged(auth, (u) => setUser(u))
-  , []);
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        await u.reload();
+        setUser(auth.currentUser);
+      } else {
+        setUser(null);
+      }
+      setLoading(false); // 🔑 auth yüklendiğinde loading bitir
+    });
+
+    return () => unsub();
+  }, []);
+
+  if (loading) {
+    // 🔹 auth yüklenene kadar spinner veya loading gösterebilirsin
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: 18,
+          color: "#1b8c34",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <>
@@ -30,7 +60,7 @@ export default function App() {
           <>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFound />} />
           </>
         ) : (
           <>
@@ -41,7 +71,7 @@ export default function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/kvkk" element={<KVKK />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFound />} />          
           </>
         )}
       </Routes>

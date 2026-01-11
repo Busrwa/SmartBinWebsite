@@ -1,11 +1,15 @@
-/* GENERAL STYLE */
+/* =======================
+   GENERAL STYLE
+======================= */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   background: #f6fdf6;
 }
 
-/* PAGE CONTAINER */
+/* =======================
+   PAGE CONTAINER
+======================= */
 .page-container {
   padding: 40px;
   max-width: 900px;
@@ -24,35 +28,34 @@ body {
   }
 }
 
+/* =======================
+   INPUT & BUTTON (EŞİT!)
+======================= */
+.input,
+.button {
+  width: 100%;
+  height: 46px;
+  /* 🔴 KRİTİK */
+  padding: 0 16px;
+  /* dikey padding yok */
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
 
 /* INPUT */
 .input {
-  width: 100%;
-  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 6px;
   margin-top: 10px;
-  font-size: 16px;
-}
-
-@media (max-width: 480px) {
-  .input {
-    font-size: 14px;
-    padding: 10px;
-  }
 }
 
 /* BUTTON */
 .button {
   background: #1b8c34;
-  padding: 12px;
   border: none;
   color: white;
-  width: 100%;
-  border-radius: 6px;
   cursor: pointer;
   margin-top: 15px;
-  font-size: 16px;
   font-weight: 500;
 }
 
@@ -61,21 +64,53 @@ body {
 }
 
 @media (max-width: 480px) {
+
+  .input,
   .button {
+    height: 42px;
     font-size: 15px;
-    padding: 10px;
   }
 }
 
-/* DEVICE CARD */
+/* =======================
+   DEVICE CARD
+======================= */
 .device-card {
   background: white;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
   border-left: 6px solid #1b8c34;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
 }
+
+.device-wrapper {
+  position: relative;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.delete-btn:hover {
+  background: #a61d1d;
+}
+
+.empty-state {
+  margin-top: 40px;
+  text-align: center;
+  color: #555;
+}
+
 
 @media (max-width: 480px) {
   .device-card {
@@ -95,7 +130,9 @@ body {
   }
 }
 
-/* LINKS (Dashboard links) */
+/* =======================
+   DASHBOARD LINKS
+======================= */
 .dashboard-links {
   margin-top: 30px;
   display: flex;
@@ -113,7 +150,9 @@ body {
   }
 }
 
-/* LEGAL LINKS (Privacy, Terms, KVKK) */
+/* =======================
+   LEGAL LINKS
+======================= */
 .legal-links {
   margin-top: 40px;
   display: flex;
@@ -138,59 +177,96 @@ body {
   }
 }
 
-/* NAVBAR BASE */
+/* =====================================================
+   NAVBAR – PROFESYONEL & RESPONSIVE
+===================================================== */
 .navbar {
-  background: #1b8c34;
-  padding: 15px 25px;
+  background: linear-gradient(135deg, #1b8c34, #157a2c);
+  padding: 14px 26px;
   color: white;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  
+  justify-content: space-between;
 
-  position: sticky;   /* EKRANDA HER ZAMAN ÜSTTE KALIR */
-  top: 0;             /* En üstte sabitlenir */
-  z-index: 999;       /* Hiçbir şey navbar’ın üstüne çıkamaz */
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
+/* LEFT */
+.nav-left {
+  display: flex;
+  align-items: center;
 }
 
-/* NAV LINKS (DESKTOP) */
+/* BRAND */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  width: 44px;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.brand-user {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* =======================
+   NAV LINKS
+======================= */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
 }
 
 .nav-links a {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  font-size: 15px;
 }
 
-.welcome {
-  font-weight: 600;
-  margin-right: 10px;
+.nav-links a:hover {
+  text-decoration: underline;
 }
 
+/* LOGOUT */
 .logout-btn {
   background: white;
   color: #1b8c34;
   border: none;
-  padding: 7px 14px;
+  padding: 7px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .logout-btn:hover {
   background: #e7ffe7;
 }
 
-/* HAMBURGER ICON */
+/* =======================
+   HAMBURGER
+======================= */
 .hamburger {
   width: 28px;
   height: 22px;
@@ -219,7 +295,9 @@ body {
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* MOBILE */
+/* =======================
+   MOBILE MENU
+======================= */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -227,46 +305,158 @@ body {
 
   .nav-links {
     position: absolute;
-    top: 65px;
+    top: 68px;
     right: 0;
-    background: #1b8c34;
     width: 100%;
+    background: #1b8c34;
+
     flex-direction: column;
     text-align: center;
-    padding: 20px 0;
+    padding: 22px 0;
+    gap: 18px;
+
     display: none;
-    gap: 20px;
   }
 
   .nav-links.active {
     display: flex;
   }
 
-  .welcome {
-    margin-right: 0;
-  }
-
   .logout-btn {
-    margin-top: 10px;
-    width: 120px;
+    width: 140px;
+    margin-top: 6px;
   }
 }
 
-/* EXTRA SMALL DEVICES */
 @media (max-width: 480px) {
   .navbar {
     padding: 12px 18px;
   }
 
-  .logo {
-    font-size: 20px;
+  .navbar-logo {
+    width: 40px;
   }
 
-  .nav-links {
-    padding: 15px 0;
+  .brand-title {
+    font-size: 18px;
   }
 
-  .logout-btn {
-    padding: 6px 12px;
+  .brand-user {
+    font-size: 11px;
+  }
+}
+
+/* =======================
+   FORM CARD (Add Bin)
+======================= */
+.form-card {
+  background: white;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* =======================
+   MODAL
+======================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 26px 24px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.modal p {
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-btn {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background: #1b8c34;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-btn:hover {
+  background: #166b29;
+}
+
+/* =======================
+   BACKGROUND DECORATION
+======================= */
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bg-circle {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.25;
+  animation: float 14s ease-in-out infinite;
+}
+
+.bg-circle.left {
+  background: #1b8c34;
+  top: 20%;
+  left: -120px;
+}
+
+.bg-circle.right {
+  background: #3fcf8e;
+  bottom: 15%;
+  right: -120px;
+  animation-delay: 6s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-40px);
+  }
+
+  100% {
+    transform: translateY(0);
   }
 }
