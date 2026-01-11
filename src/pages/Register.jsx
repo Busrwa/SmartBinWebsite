@@ -16,10 +16,13 @@ export default function Register() {
 
   // 🔹 Eğer kullanıcı zaten girişliyse direkt dashboard
   useEffect(() => {
-    if (auth.currentUser) {
-      navigate("/");
-    }
-  }, []);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user && user.displayName) {
+        navigate("/", { replace: true }); // user ve displayName hazırsa yönlendir
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const register = async () => {
     if (!fullName || !email || !password) {
@@ -45,8 +48,8 @@ export default function Register() {
         createdAt: new Date(),
       });
 
-      // 🔹 Kayıt sonrası yönlendirme
-      navigate("/"); // dashboard’a git
+      // 🔹 Yönlendirme artık onAuthStateChanged ile yapılacak
+      // navigate("/") burada kaldırıldı
     } catch {
       setError("This email is already in use or invalid.");
     } finally {

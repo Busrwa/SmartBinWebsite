@@ -46,7 +46,7 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
 
       // 🔑 giriş başarılı → dashboard
-      navigate("/");
+      navigate("/", { replace: true });
     } catch {
       const next = attempts + 1;
       setAttempts(next);
@@ -78,7 +78,7 @@ export default function Login() {
   useEffect(() => {
     // 🔑 Girişli kullanıcı login sayfasına gelirse direkt dashboard
     if (auth.currentUser) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
 
     if (!isLocked) return;
