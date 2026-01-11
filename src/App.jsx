@@ -57,7 +57,7 @@ export default function App() {
       <Routes>
         {!user ? (
           <>
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </>
