@@ -66,6 +66,10 @@ export default function App() {
         ) : (
           <>
             <Route path="/" element={<Dashboard />} />
+            {/* 🔥 KRİTİK: login/register’a gelirse geri at */}
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/register" element={<Navigate to="/" replace />} />
+            
             <Route path="/devices" element={<Devices />} />
             <Route path="/add-device" element={<AddDevice />} />
             <Route path="/profile" element={<Profile />} />

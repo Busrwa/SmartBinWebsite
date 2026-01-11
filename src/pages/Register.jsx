@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [fullName, setFullName] = useState("");
@@ -12,23 +12,12 @@ export default function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  // 🔹 Eğer kullanıcı zaten girişliyse direkt dashboard
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user && user.displayName) {
-        navigate("/", { replace: true }); // user ve displayName hazırsa yönlendir
-      }
-    });
-    return () => unsubscribe();
-  }, [navigate]);
-
   const register = async () => {
     if (!fullName || !email || !password) {
       setError("Please fill in all fields.");
       return;
     }
+
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
@@ -38,9 +27,15 @@ export default function Register() {
       setLoading(true);
       setError("");
 
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      await updateProfile(userCred.user, { displayName: fullName });
+      await updateProfile(userCred.user, {
+        displayName: fullName,
+      });
 
       await setDoc(doc(db, "users", userCred.user.uid), {
         fullName,
@@ -48,16 +43,14 @@ export default function Register() {
         createdAt: new Date(),
       });
 
-      // 🔑 Burada direkt dashboard’a yönlendir
-      navigate("/", { replace: true });
-
+      // ❗ YÖNLENDİRME YOK
+      // App.jsx onAuthStateChanged yakalayacak
     } catch {
       setError("This email is already in use or invalid.");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div style={page}>
@@ -114,13 +107,12 @@ export default function Register() {
 
         <p style={bottomText}>
           Already have an account?{" "}
-          <Link to="/" style={link}>
+          <Link to="/login" style={link}>
             Login
           </Link>
         </p>
       </div>
 
-      {/* MODAL */}
       {error && (
         <div style={modalOverlay}>
           <div style={modal}>

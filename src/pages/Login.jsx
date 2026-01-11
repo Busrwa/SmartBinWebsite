@@ -4,11 +4,9 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import { Link, useNavigate } from "react-router-dom"; // 🔑 useNavigate eklendi
+import { Link } from "react-router-dom";
 
 export default function Login() {
-  const navigate = useNavigate(); // 🔑 yönlendirme
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +14,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // brute-force
+  // brute-force protection
   const [attempts, setAttempts] = useState(0);
   const [lockUntil, setLockUntil] = useState(null);
   const [shake, setShake] = useState(false);
@@ -44,9 +42,7 @@ export default function Login() {
       setLoading(true);
       setError("");
       await signInWithEmailAndPassword(auth, email, password);
-
-      // 🔑 giriş başarılı → dashboard
-      navigate("/", { replace: true });
+      // ❗ yönlendirme YOK – App.jsx halledecek
     } catch {
       const next = attempts + 1;
       setAttempts(next);
@@ -76,17 +72,12 @@ export default function Login() {
   };
 
   useEffect(() => {
-    // 🔑 Girişli kullanıcı login sayfasına gelirse direkt dashboard
-    if (auth.currentUser) {
-      navigate("/", { replace: true });
-    }
-
     if (!isLocked) return;
     const timer = setInterval(() => {
       if (Date.now() >= lockUntil) setLockUntil(null);
     }, 1000);
     return () => clearInterval(timer);
-  }, [isLocked, lockUntil, navigate]);
+  }, [isLocked, lockUntil]);
 
   return (
     <div style={page}>
@@ -95,7 +86,6 @@ export default function Login() {
 
         <h2 style={title}>Login</h2>
 
-        {/* EMAIL */}
         <input
           style={input}
           type="email"
@@ -104,7 +94,6 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* PASSWORD */}
         <div style={passwordWrapper}>
           <input
             style={passwordInput}
@@ -273,8 +262,6 @@ const link = {
   fontWeight: "600",
   textDecoration: "none",
 };
-
-/* MODAL */
 
 const modalOverlay = {
   position: "fixed",
