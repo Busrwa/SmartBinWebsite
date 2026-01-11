@@ -4,9 +4,11 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // 🔑 useNavigate eklendi
 
 export default function Login() {
+  const navigate = useNavigate(); // 🔑 yönlendirme
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +44,9 @@ export default function Login() {
       setLoading(true);
       setError("");
       await signInWithEmailAndPassword(auth, email, password);
+
+      // 🔑 giriş başarılı → dashboard
+      navigate("/");
     } catch {
       const next = attempts + 1;
       setAttempts(next);
@@ -71,12 +76,17 @@ export default function Login() {
   };
 
   useEffect(() => {
+    // 🔑 Girişli kullanıcı login sayfasına gelirse direkt dashboard
+    if (auth.currentUser) {
+      navigate("/");
+    }
+
     if (!isLocked) return;
     const timer = setInterval(() => {
       if (Date.now() >= lockUntil) setLockUntil(null);
     }, 1000);
     return () => clearInterval(timer);
-  }, [isLocked, lockUntil]);
+  }, [isLocked, lockUntil, navigate]);
 
   return (
     <div style={page}>

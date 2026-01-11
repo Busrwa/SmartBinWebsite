@@ -32,7 +32,7 @@ export default function Profile() {
   const handleDeleteAccount = async () => {
     try {
       await user.delete();
-      navigate("/signup");
+      navigate("/login");
     } catch (err) {
       openModal(
         "Error",
