@@ -48,14 +48,16 @@ export default function Register() {
         createdAt: new Date(),
       });
 
-      // 🔹 Yönlendirme artık onAuthStateChanged ile yapılacak
-      // navigate("/") burada kaldırıldı
+      // 🔑 Burada direkt dashboard’a yönlendir
+      navigate("/", { replace: true });
+
     } catch {
       setError("This email is already in use or invalid.");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div style={page}>

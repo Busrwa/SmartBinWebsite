@@ -20,7 +20,7 @@ export default function Navbar({ user }) {
           <div className="brand-text">
             <span className="brand-title">Smart Bin</span>
             <span className="brand-user">
-              Welcome, {user?.displayName || "User"}
+              Welcome, {auth.currentUser?.displayName || "User"}
             </span>
           </div>
         </div>
