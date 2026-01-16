@@ -104,6 +104,7 @@ export default function Register() {
         >
           {loading ? "Creating account..." : "Register"}
         </button>
+        
 
         <p style={bottomText}>
           Already have an account?{" "}
